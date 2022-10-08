@@ -9,8 +9,11 @@ Web server using the Express.js framework and add it to a front-end application 
 * Deploy a server-side application to the Heroku platform.
 
 ## Deployed link
-https://zookeepr121.herokuapp.com/
+[Link to Heroku](https://zookeepr121.herokuapp.com/)
+(November 2022 heroku is changing policies, may be inactive)
 
+## Screenshot
+![img](./public/assets/images/ZooKeeprsc.png)
 ### Contact or questions
 [Coleyrockin Github](https://github.com/coleyrockin)
 
