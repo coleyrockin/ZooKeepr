@@ -1,5 +1,5 @@
 # ZooKeepr
-Web server using the Express.js framework and a front-end application that the local zoo is developing, called Zoo Keepr.
+Web server using the Express.js framework added to a front-end application that the local zoo is developing, called Zoo Keepr.
 
 * Configure an Express.js app to serve static files.
 * Identify how client-side requests relate to server-side responses.
