@@ -1,29 +1,61 @@
 # ZooKeepr
-Web server using the Express.js framework added to a front-end application that the local zoo is developing, called Zoo Keepr.
 
-* Configure an Express.js app to serve static files.
-* Identify how client-side requests relate to server-side responses.
-* Parse optional and required parameters when creating server-side routes.
-* Implement client-side POST requests to submit form data to a server.
-* Implement separation of concerns for routing.
+![Express.js](https://img.shields.io/badge/Express.js-4.x-000000?style=flat&logo=express&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-Runtime-339933?style=flat&logo=node.js&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-28.x-C21325?style=flat&logo=jest&logoColor=white)
+![License](https://img.shields.io/badge/License-ISC-blue?style=flat)
 
-## Free Hosting Options
-Since Heroku removed its free tier (November 2022), here are free alternatives for hosting this Node.js/Express app:
+## About
 
-| Platform | Free Tier Details | Link |
-|----------|------------------|------|
-| [Render](https://render.com/) | Free web services (spins down after inactivity) | https://render.com/ |
-| [Railway](https://railway.app/) | Free trial with $5 credit/month | https://railway.app/ |
-| [Fly.io](https://fly.io/) | Free tier with up to 3 shared VMs | https://fly.io/ |
-| [Cyclic](https://www.cyclic.sh/) | Free tier for full-stack apps | https://www.cyclic.sh/ |
-| [Glitch](https://glitch.com/) | Free project hosting with editor | https://glitch.com/ |
+ZooKeepr is a server-side API built with Express.js that powers a zoo management application. The API handles animal catalog data with full CRUD operations, route parameterization, data validation, and middleware — serving a polished front-end interface for browsing and managing zoo animals and zookeepers.
 
-> **Note:** This app uses `process.env.PORT` which is compatible with all the platforms listed above.
+## Features
 
-## Screenshot
-![img](./public/assets/images/ZooKeeprsc.png)
+- **RESTful API** — Modular route handling with Express Router for animals and zookeepers
+- **Data Validation** — Server-side input validation and filtering with custom helper functions
+- **Static File Serving** — Express middleware serves the complete front-end application
+- **Parameterized Routes** — Query string filtering and dynamic route parameters
+- **Test Suite** — Jest-based unit tests for data validation and API logic
+- **Modular Architecture** — Separation of concerns across routes, data, and utility layers
 
-### Contact or questions
-[Coleyrockin Github](https://github.com/coleyrockin)
+## Tech Stack
 
-[Coleyrockin@aol.com](mailto:coleyrockin@aol.com)
+| Category | Technology | Version |
+|----------|------------|---------|
+| Runtime | Node.js | 17.x |
+| Framework | Express.js | 4.x |
+| Testing | Jest | 28.x |
+
+## Getting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/coleyrockin/ZooKeepr.git
+
+# Install dependencies
+npm install
+
+# Start the server
+npm start
+
+# Run tests
+npm test
+```
+
+## Project Structure
+
+```
+ZooKeepr/
+├── __tests__/          # Jest test suites
+├── data/               # JSON data store for animals and zookeepers
+├── lib/                # Helper and validation utilities
+├── public/             # Front-end static assets (HTML, CSS, JS)
+├── routes/             # Express Router modules (apiRoutes, htmlRoutes)
+├── server.js           # Express server entry point
+├── package.json        # Dependencies and scripts
+└── README.md
+```
+
+---
+
+Built by [Boyd Roberts](https://github.com/coleyrockin)
