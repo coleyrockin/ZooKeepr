@@ -1,0 +1,11 @@
+node_modules
+__tests__
+.git
+.gitignore
+.env
+.env.*
+*.log
+*.md
+data/zookeepr.sqlite*
+public/assets/images/*.png
+public/assets/images/*.jpg
