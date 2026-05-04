@@ -6,13 +6,17 @@ const app = express();
 const apiRoutes = require('./routes/apiRoutes');
 const htmlRoutes = require('./routes/htmlRoutes');
 
+if (process.env.TRUST_PROXY) {
+  app.set('trust proxy', process.env.TRUST_PROXY);
+}
+
 app.use(helmet());
 app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 app.use(express.json({ limit: '16kb' }));
 app.use(express.static('public'));
 
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', service: 'zookeepr', env: process.env.NODE_ENV || 'development' });
+  res.json({ status: 'ok', service: 'zookeepr' });
 });
 
 app.use('/api', apiRoutes);
@@ -31,7 +35,10 @@ app.use((err, req, res, next) => {
     return res.status(500).json({ error: 'An unexpected server error occurred.' });
   }
 
-  return res.status(500).json({ error: 'An unexpected server error occurred.' });
+  return res
+    .status(500)
+    .type('text/plain')
+    .send('An unexpected server error occurred.');
 });
 
 if (require.main === module) {

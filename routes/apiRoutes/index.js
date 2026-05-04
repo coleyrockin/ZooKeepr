@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const animalRoutes = require('../apiRoutes/animalRoutes');
-const zookeeperRoutes = require('../apiRoutes/zookeeperRoutes');
+const animalRoutes = require('./animalRoutes');
+const zookeeperRoutes = require('./zookeeperRoutes');
 
 router.use(animalRoutes);
 router.use(zookeeperRoutes);

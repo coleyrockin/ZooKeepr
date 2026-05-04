@@ -103,7 +103,7 @@ const handleAnimalFormSubmit = event => {
 
   const animalObject = { name, species, diet, personalityTraits };
   const submitButton = $animalForm.querySelector('button[type="submit"]');
-  submitJson('api/animals', animalObject, $animalStatus, submitButton, $animalForm);
+  submitJson('/api/animals', animalObject, $animalStatus, submitButton, $animalForm);
 };
 
 const handleZookeeperFormSubmit = event => {
@@ -115,7 +115,7 @@ const handleZookeeperFormSubmit = event => {
   const zookeeperObj = { name, age, favoriteAnimal };
   const submitButton = $zookeeperForm.querySelector('button[type="submit"]');
 
-  submitJson('api/zookeepers', zookeeperObj, $zookeeperStatus, submitButton, $zookeeperForm);
+  submitJson('/api/zookeepers', zookeeperObj, $zookeeperStatus, submitButton, $zookeeperForm);
 };
 
 $animalForm.addEventListener('submit', handleAnimalFormSubmit);

@@ -78,6 +78,7 @@ Create a `.env` file from `.env.example`.
 - `ZOO_WRITES_ENABLED` — set to `true` to enable POST routes.
 - `ZOO_WRITE_TOKEN` — required token when write endpoints are enabled.
 - `ZOO_WRITE_RATE_LIMIT` — max POST requests per minute per IP (defaults to `30`).
+- `TRUST_PROXY` — passed to `app.set('trust proxy', …)`. Set to `1` (or a CIDR) **only** when running behind a known reverse proxy that sets `X-Forwarded-For`. Leave unset for direct exposure so the rate-limiter can't be bypassed by spoofed headers.
 
 ## Run tests
 
@@ -147,11 +148,8 @@ Both POST routes require:
 
 ## License
 
-MIT
+ISC. See [LICENSE](./LICENSE).
 
 ## Author
 
-Coleyrockin, adapted and upgraded by the project maintainer.
-
-- GitHub: [github.com/coleyrockin](https://github.com/coleyrockin)
-- Contact: [Coleyrockin@aol.com](mailto:Coleyrockin@aol.com)
+**Boyd Roberts** — [GitHub](https://github.com/coleyrockin)
