@@ -8,11 +8,21 @@ const {
 const { zookeepers } = require('../data/zookeepers');
 
 jest.mock('fs');
-test('creates a zookeeper object', () => {
-  const zookeeper = createNewZookeeper({ name: 'Darlene', id: 'jhgdja3ng2' }, zookeepers);
 
-  expect(zookeeper.name).toBe('Darlene');
-  expect(zookeeper.id).toBe('jhgdja3ng2');
+fs.writeFile.mockImplementation((...args) => {
+  const callback = args[args.length - 1];
+  if (typeof callback === 'function') {
+    callback(null);
+  }
+});
+test('creates a zookeeper object', () => {
+  return createNewZookeeper({ name: 'Darlene', age: 32, favoriteAnimal: 'otter' }, zookeepers).then(
+    zookeeper => {
+      expect(zookeeper.name).toBe('Darlene');
+      expect(zookeeper.id).toBe('9');
+    }
+  );
+
 });
 
 test('filters by query', () => {

@@ -4,11 +4,18 @@ const { animals } = require('../data/animals');
 
 jest.mock('fs');
 
-test('creates an animal object', () => {
-  const animal = createNewAnimal({ name: 'Darlene', id: 'jhgdja3ng2' }, animals);
+fs.writeFile.mockImplementation((...args) => {
+  const callback = args[args.length - 1];
+  if (typeof callback === 'function') {
+    callback(null);
+  }
+});
+
+test('creates an animal object', async () => {
+  const animal = await createNewAnimal({ name: 'Darlene', species: 'cat', diet: 'omnivore', personalityTraits: ['curious'] }, animals);
 
   expect(animal.name).toBe('Darlene');
-  expect(animal.id).toBe('jhgdja3ng2');
+  expect(animal.id).toBe('10');
 });
 
 test('filters by query', () => {

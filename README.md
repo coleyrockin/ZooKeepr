@@ -14,6 +14,12 @@ Web server using the Express.js framework and add it to a front-end application 
 
 ## Screenshot
 ![img](./public/assets/images/ZooKeeprsc.png)
+
+### Server hardening notes
+- `POST /api/animals` and `POST /api/zookeepers` are protected in this version.
+- Enable writes by setting `ZOO_WRITES_ENABLED=true`.
+- Configure a write token with `ZOO_WRITE_TOKEN` and send it in requests as `x-zoo-write-token`.
+
 ### Contact or questions
 [Coleyrockin Github](https://github.com/coleyrockin)
 

@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { filterByQuery, findById, createNewAnimal, validateAnimal } = require('../../lib/animals');
+const { filterByQuery, findById, createNewAnimal } = require('../../lib/animals');
+const { rateLimitWrites, requireWriteAuth } = require('./writeSecurity');
 const { animals } = require('../../data/animals');
 
 router.get('/animals', (req, res) => {
@@ -19,15 +20,18 @@ router.get('/animals/:id', (req, res) => {
   }
 });
 
-router.post('/animals', (req, res) => {
-  // set id based on what the next index of the array will be
-  req.body.id = animals.length.toString();
+router.post('/animals', rateLimitWrites, requireWriteAuth, async (req, res) => {
+  try {
+    const animal = await createNewAnimal(req.body, animals);
+    res.status(201).json(animal);
+  } catch (err) {
+    if (err.message.includes('Invalid animal payload')) {
+      res.status(400).send('The animal is not properly formatted.');
+      return;
+    }
 
-  if (!validateAnimal(req.body)) {
-    res.status(400).send('The animal is not properly formatted.');
-  } else {
-    const animal = createNewAnimal(req.body, animals);
-    res.json(animal);
+    console.error(`Could not create animal: ${err.message}`);
+    res.status(500).send('Unable to save animal data.');
   }
 });
 

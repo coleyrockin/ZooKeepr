@@ -2,9 +2,9 @@ const router = require('express').Router();
 const {
   filterByQuery,
   findById,
-  createNewZookeeper,
-  validateZookeeper
+  createNewZookeeper
 } = require('../../lib/zookeepers');
+const { rateLimitWrites, requireWriteAuth } = require('./writeSecurity');
 const { zookeepers } = require('../../data/zookeepers');
 
 router.get('/zookeepers', (req, res) => {
@@ -24,14 +24,18 @@ router.get('/zookeepers/:id', (req, res) => {
   }
 });
 
-router.post('/zookeepers', (req, res) => {
-  req.body.id = zookeepers.length.toString();
+router.post('/zookeepers', rateLimitWrites, requireWriteAuth, async (req, res) => {
+  try {
+    const zookeeper = await createNewZookeeper(req.body, zookeepers);
+    res.status(201).json(zookeeper);
+  } catch (err) {
+    if (err.message.includes('Invalid zookeeper payload')) {
+      res.status(400).send('The zookeeper is not properly formatted.');
+      return;
+    }
 
-  if (!validateZookeeper(req.body)) {
-    res.status(400).send('The zookeeper is not properly formatted.');
-  } else {
-    const zookeeper = createNewZookeeper(req.body, zookeepers);
-    res.json(zookeeper);
+    console.error(`Could not create zookeeper: ${err.message}`);
+    res.status(500).send('Unable to save zookeeper data.');
   }
 });
 
