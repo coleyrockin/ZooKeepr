@@ -34,9 +34,10 @@
           <label for="name-input" class="form-label">Search by name</label>
           <input name="name" id="name-input" class="form-input" />
           <label for="age-input" class="form-label">Search by age</label>
-          <input name="age" id="age-input" class="form-input" type="number" />
-          <button class="btn">Get Zookeepers</button>
+          <input name="age" id="age-input" class="form-input" type="number" min="1" max="130" />
+          <button class="btn" type="submit">Get Zookeepers</button>
         </form>
+        <div id="zookeeper-search-status" class="status" role="status" aria-live="polite" hidden></div>
       </div>
       <div class="col-12 col-lg-9 bg-dark p-3">
 

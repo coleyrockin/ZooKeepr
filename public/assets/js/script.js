@@ -1,80 +1,121 @@
 const $animalForm = document.querySelector('#animal-form');
 const $zookeeperForm = document.querySelector('#zookeeper-form');
 
-const handleAnimalFormSubmit = event => {
-  event.preventDefault();
+const $animalStatus = document.querySelector('#animal-form-status');
+const $zookeeperStatus = document.querySelector('#zookeeper-form-status');
 
-  // get animal data and organize it
-  const name = $animalForm.querySelector('[name="animal-name"]').value;
-  const species = $animalForm.querySelector('[name="species"]').value;
-  const dietRadioHTML = $animalForm.querySelectorAll('[name="diet"]');
-  let diet;
+function setStatus($status, message, tone = 'info') {
+  if (!$status) {
+    return;
+  }
+
+  if (!message) {
+    $status.hidden = true;
+    $status.textContent = '';
+    return;
+  }
+
+  $status.className = `status status--${tone}`;
+  $status.textContent = message;
+  $status.hidden = false;
+}
+
+function buildErrorMessage(responseText, statusText) {
+  if (!responseText) {
+    return statusText;
+  }
+
+  try {
+    const payload = JSON.parse(responseText);
+    return payload.error || payload.message || statusText;
+  } catch {
+    return responseText || statusText;
+  }
+}
+
+function readFormTraitValues($form, fieldName) {
+  const selectedTraits = $form.querySelector(`[name="${fieldName}"]`)?.selectedOptions || [];
+  const traits = [];
+
+  for (let i = 0; i < selectedTraits.length; i += 1) {
+    traits.push(selectedTraits[i].value);
+  }
+
+  return traits;
+}
+
+function getDietValue($form) {
+  const dietRadioHTML = $form.querySelectorAll('[name="diet"]');
 
   for (let i = 0; i < dietRadioHTML.length; i += 1) {
     if (dietRadioHTML[i].checked) {
-      diet = dietRadioHTML[i].value;
+      return dietRadioHTML[i].value;
     }
   }
 
-  if (diet === undefined) {
-    diet = '';
-  }
+  return '';
+}
 
-  const selectedTraits = $animalForm.querySelector('[name="personality"]').selectedOptions;
-  const personalityTraits = [];
-  for (let i = 0; i < selectedTraits.length; i += 1) {
-    personalityTraits.push(selectedTraits[i].value);
-  }
-  const animalObject = { name, species, diet, personalityTraits };
+async function submitJson(endpoint, payload, statusNode, submitButton, formToReset) {
+  const previousLabel = submitButton?.textContent;
+  submitButton.disabled = true;
+  submitButton.textContent = 'Saving...';
+  setStatus(statusNode, 'Submitting your record...', 'info');
 
-  fetch('api/animals', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(animalObject)
-  })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      alert('Error: ' + response.statusText);
-    })
-    .then(postResponse => {
-      console.log(postResponse);
-      alert('Thank you for adding an animal!');
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
     });
+
+    const responseText = await response.text();
+
+    if (!response.ok) {
+      const message = buildErrorMessage(responseText, response.statusText);
+      setStatus(statusNode, `Error: ${message}`, 'error');
+      return;
+    }
+
+    const parsed = responseText ? JSON.parse(responseText) : null;
+    setStatus(statusNode, `Saved: ${parsed?.name || 'Record created'} (ID ${parsed?.id || 'new'})`, 'success');
+    if (formToReset) {
+      formToReset.reset();
+    }
+  } catch (error) {
+    setStatus(statusNode, `Network error: ${error.message}`, 'error');
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = previousLabel;
+  }
+}
+
+const handleAnimalFormSubmit = event => {
+  event.preventDefault();
+
+  const name = $animalForm.querySelector('[name="animal-name"]').value.trim();
+  const species = $animalForm.querySelector('[name="species"]').value.trim();
+  const diet = getDietValue($animalForm);
+  const personalityTraits = readFormTraitValues($animalForm, 'personality');
+
+  const animalObject = { name, species, diet, personalityTraits };
+  const submitButton = $animalForm.querySelector('button[type="submit"]');
+  submitJson('api/animals', animalObject, $animalStatus, submitButton, $animalForm);
 };
 
 const handleZookeeperFormSubmit = event => {
   event.preventDefault();
 
-  // get zookeeper data and organize it
-  const name = $zookeeperForm.querySelector('[name="zookeeper-name"]').value;
-  const age = parseInt($zookeeperForm.querySelector('[name="age"]').value);
-  const favoriteAnimal = $zookeeperForm.querySelector('[name="favorite-animal"]').value;
-
+  const name = $zookeeperForm.querySelector('[name="zookeeper-name"]').value.trim();
+  const age = parseInt($zookeeperForm.querySelector('[name="age"]').value, 10);
+  const favoriteAnimal = $zookeeperForm.querySelector('[name="favorite-animal"]').value.trim();
   const zookeeperObj = { name, age, favoriteAnimal };
-  console.log(zookeeperObj);
-  fetch('api/zookeepers', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(zookeeperObj)
-  })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      alert('Error: ' + response.statusText);
-    })
-    .then(postResponse => {
-      console.log(postResponse);
-      alert('Thank you for adding a zookeeper!');
-    });
+  const submitButton = $zookeeperForm.querySelector('button[type="submit"]');
+
+  submitJson('api/zookeepers', zookeeperObj, $zookeeperStatus, submitButton, $zookeeperForm);
 };
 
 $animalForm.addEventListener('submit', handleAnimalFormSubmit);

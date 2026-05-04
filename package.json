@@ -1,7 +1,7 @@
 {
   "name": "zookeepr",
   "version": "1.0.0",
-  "description": "",
+  "description": "Full-stack Express app for managing a zoo catalog (animals and zookeepers) with JSON-backed data and protected write endpoints.",
   "main": "server.js",
   "scripts": {
     "test": "jest",
@@ -20,8 +20,7 @@
   "homepage": "https://github.com/coleyrockin/ZooKeepr#readme",
   "dependencies": {
     "express": "^4.21.2",
-    "helmet": "^7.1.0",
-    "i": "^0.3.7"
+    "helmet": "^7.1.0"
   },
   "devDependencies": {
     "jest": "^29.7.0"

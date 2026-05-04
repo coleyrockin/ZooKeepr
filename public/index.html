@@ -19,8 +19,8 @@
     <div class="container-fluid mx-auto">
       <section class="p-3 my-4 bg-dark ">
         <h2 class="text-light">Your guide to the wild.</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere fugiat sint ab ut blanditiis assumenda, culpa
-          alias perspiciatis, at quasi minus. Repellendus magni accusamus aliquam sunt culpa ex enim natus.</p>
+        <p>Zoo Keepr helps staff quickly catalog animals and zookeepers, then find matches by species, diet, names,
+          age, and personality traits.</p>
       </section>
     </div>
   </header>
@@ -38,12 +38,13 @@
     <section class="my-4 flex-row justify-space-between ">
       <div class="col-12 col-lg-6 bg-dark p-3 mb-3">
         <h3 class="text-light">Enter an Animal</h3>
+        <div id="animal-form-status" class="status" role="status" aria-live="polite" hidden></div>
         <form id="animal-form">
           <label for="animal-name" class="form-label">Animal Name</label>
-          <input type="text" id="animal-name" name="animal-name" class="form-input" placeholder="Enter Name">
+          <input required type="text" id="animal-name" name="animal-name" class="form-input" placeholder="Enter Name">
 
           <label for="species-input" class="form-label">Species</label>
-          <input type="text" id="species-input" name="species" class="form-input" placeholder="Enter Species">
+          <input required type="text" id="species-input" name="species" class="form-input" placeholder="Enter Species">
 
           <label for="diet-input" class="form-label">Diet</label>
           <div class="flex-row justify-center">
@@ -71,7 +72,7 @@
 
           <label for="personality-input" class="form-label">Personality Traits (pick all that apply)</label>
           <small>On macOS, use <kbd>command + click</kbd></small> <br />
-          <small>On Windows, use <kdb>ctrl + click</kdb></small>
+          <small>On Windows, use <kbd>ctrl + click</kbd></small>
           <select multiple id="personality-input" class="form-input" name="personality">
             <option value="hungry">Hungry</option>
             <option value="zany">Zany</option>
@@ -80,25 +81,27 @@
             <option value="goofy">Goofy</option>
           </select>
 
-          <button class="btn">Add Animal</button>
+          <button class="btn" type="submit">Add Animal</button>
         </form>
       </div>
 
       <div class="col-12 col-lg-6 bg-dark p-3 mb-3">
         <h3 class="text-light">Enter a Zookeeper</h3>
+        <div id="zookeeper-form-status" class="status" role="status" aria-live="polite" hidden></div>
         <form id="zookeeper-form">
           <label for="zookeeper-name" class="form-label">Zookeeper Name</label>
-          <input type="text" id="zookeeper-name" class="form-input input" placeholder="Enter Name"
+          <input required type="text" id="zookeeper-name" class="form-input input" placeholder="Enter Name"
             name="zookeeper-name">
 
           <label for="age-input" class="form-label input">Age</label>
-          <input type="number" id="age-input" class="form-input" placeholder="Enter Age" name="age">
+          <input required type="number" id="age-input" class="form-input" placeholder="Enter Age" name="age" min="1"
+            max="130">
 
           <label for="favorite-animal" class="form-label">Favorite Animal</label>
-          <input type="text" class="form-input input" id="favorite-animal" placeholder="Enter Favorite Animal"
+          <input required type="text" class="form-input input" id="favorite-animal" placeholder="Enter Favorite Animal"
             name="favorite-animal">
 
-          <button class="btn">Add Zookeeper</button>
+          <button class="btn" type="submit">Add Zookeeper</button>
         </form>
       </div>
 

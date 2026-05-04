@@ -123,6 +123,11 @@ nav a:hover {
   background-color: var(--tertiary);
 }
 
+.btn:focus-visible {
+  outline: 3px solid var(--light);
+  outline-offset: 2px;
+}
+
 .btn-inline {
   display: inline;
 }
@@ -220,6 +225,42 @@ nav a:hover {
   opacity: 1;
   -webkit-transform: scale(1);
   transform: scale(1);
+}
+
+/* STATUS */
+.status {
+  margin: 0.75rem 0;
+  padding: 0.65rem 0.8rem;
+  border-radius: var(--border-radius);
+  border: 1px solid transparent;
+}
+
+.status[hidden] {
+  display: none;
+}
+
+.status--info {
+  color: #e8f4ff;
+  background-color: rgba(1, 87, 138, 0.35);
+  border-color: #8fd3ff;
+}
+
+.status--success {
+  color: #d1f5d8;
+  background-color: rgba(23, 113, 62, 0.35);
+  border-color: #8de6aa;
+}
+
+.status--error {
+  color: #ffdddd;
+  background-color: rgba(136, 18, 18, 0.35);
+  border-color: #ff9a9a;
+}
+
+.status--empty {
+  color: #fff3cd;
+  background-color: rgba(133, 109, 8, 0.35);
+  border-color: #ffe08a;
 }
 
 /* LAYOUT */
